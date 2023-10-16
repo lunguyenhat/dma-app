@@ -29,12 +29,6 @@ jobs:
       - run: yarn install
       - run: yarn lint:check
       - run: CI=false yarn build
-      - uses: JS-DevTools/npm-publish@v2
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          strategy: upgrade
-          ignore-scripts: false
-          package: ./packages/aesirx-dma-app
 
       - name: Docker meta
         id: meta
@@ -75,6 +69,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - uses: JS-DevTools/npm-publish@v2
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          strategy: upgrade
+          ignore-scripts: false
+          package: ./packages/aesirx-dma-app
+          
       - name: Release note
         uses: ncipollo/release-action@v1
         with:
